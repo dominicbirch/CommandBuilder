@@ -25,20 +25,9 @@ namespace CommandBuilder
 
             return this;
         }
+
         /// <inheritdoc />
         public IAsyncCommand<T> Build() =>
-            new Command(_sequence);
-
-
-        class Command : IAsyncCommand<T>
-        {
-            readonly Func<T, Task<T>> _body;
-            public Command(Func<T, Task<T>> body) =>
-                _body = body;
-
-            /// <inheritdoc />
-            public Task ExecuteAsync(T instance) =>
-                _body?.Invoke(instance);
-        }
+            new AsyncCommand<T>(_sequence);
     }
 }

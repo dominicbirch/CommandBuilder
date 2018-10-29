@@ -24,20 +24,9 @@ namespace CommandBuilder
 
             return this;
         }
+        
         /// <inheritdoc />
         public ICommand<T> Build() =>
-            new Command(_sequence);
-
-
-        class Command : ICommand<T>
-        {
-            readonly Func<T, T> _body;
-            public Command(Func<T, T> body) =>
-                _body = body;
-
-            /// <inheritdoc />
-            public void Execute(T instance) =>
-                _body?.Invoke(instance);
-        }
+            new Command<T>(_sequence);
     }
 }
