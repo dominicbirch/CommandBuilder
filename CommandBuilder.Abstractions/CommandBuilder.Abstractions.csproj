@@ -1,8 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFrameworks>netcoreapp2.0;netcoreapp1.0;net47</TargetFrameworks>
     <RootNamespace>CommandBuilder</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>dominicbirch</Authors>
+    <RepositoryUrl>https://github.com/dominicbirch/CommandBuilder.git</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/dominicbirch/</PackageProjectUrl>
+    <PackageIconUrl>https://pbs.twimg.com/profile_images/2844970386/9e43ec21872d01469207dca196d9158b_400x400.jpeg</PackageIconUrl>
   </PropertyGroup>
 
 </Project>

@@ -1,11 +1,16 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFrameworks>netcoreapp2.0;netcoreapp1.0;net47</TargetFrameworks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Dominic Birch</Authors>
+    <PackageProjectUrl>https://github.com/dominicbirch/CommandBuilder</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/dominicbirch/CommandBuilder.git</RepositoryUrl>
+    <PackageIconUrl>https://pbs.twimg.com/profile_images/2844970386/9e43ec21872d01469207dca196d9158b_400x400.jpeg</PackageIconUrl>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CommandBuilder.Abstractions\CommandBuilder.Abstractions.csproj" />
+    <PackageReference Include="CommandBuilder.Abstractions" Version="1.0.0" />
   </ItemGroup>
 
 </Project>
