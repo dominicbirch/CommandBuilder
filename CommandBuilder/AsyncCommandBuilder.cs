@@ -6,20 +6,23 @@ namespace CommandBuilder
     /// <summary>
     /// Used to create commands which execute each of the supplied commands once in sequence.
     /// </summary>
-    /// <typeparam name="T">The type which the built commands may execute against.</typeparam>
-    public class AsyncCommandBuilder<T> : IAsyncCommandBuilder<T>
+    /// <typeparam name="TContext">The type which the built commands may execute against.</typeparam>
+    public class AsyncCommandBuilder<TContext> : IAsyncCommandBuilder<TContext>
     {
-        Func<T, Task<T>> _sequence = i => Task.FromResult(i);
-        Func<T, Task<T>> Compose(Func<T, Task<T>> f1, Func<T, Task> f2) =>
-            async instance =>
+        private AsyncContextTransformation<TContext> _sequence = (c, _) => Task.FromResult(c);
+        private static AsyncContextTransformation<TContext> Compose(AsyncContextTransformation<TContext> f1, AsyncContextHandler<TContext> f2) =>
+            async (c, ct) =>
             {
-                await f2(await f1(instance));
+                var r = await f1(c, ct).ConfigureAwait(false);
+                if (!ct.IsCancellationRequested)
+                    await f2(r, ct).ConfigureAwait(false);
 
-                return instance;
+                return r;
             };
 
+
         /// <inheritdoc />
-        public IAsyncCommandBuilder<T> Add(IAsyncCommand<T> command)
+        public IAsyncCommandBuilder<TContext> Add<TCommand>(TCommand command) where TCommand : IAsyncCommand<TContext>
         {
             _sequence = Compose(_sequence, command.ExecuteAsync);
 
@@ -27,7 +30,6 @@ namespace CommandBuilder
         }
 
         /// <inheritdoc />
-        public IAsyncCommand<T> Build() =>
-            new AsyncCommand<T>(_sequence);
+        public IAsyncCommand<TContext> Build() => new AsyncCommand<TContext>(_sequence);
     }
 }
